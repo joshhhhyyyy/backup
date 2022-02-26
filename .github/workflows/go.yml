@@ -1,0 +1,47 @@
+name: 😮‍💨
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.go"
+  workflow_dispatch:
+
+jobs:
+  buildl:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+          fetch-depth: 0
+      - name: Pre-Cleanup
+        run: |
+          rm flexgit
+          go get github.com/storageroom/storage/increment/
+          go install github.com/storageroom/storage/increment/
+      - name: Build
+        run: |
+          go get -d ./...
+          go build flexgit.go
+          chmod +x flexgit
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+          git_push_gpgsign: false
+      - name: set up git
+        run: |
+          git config --global gpg.program gpg2
+      - name: increment + commit
+        env:
+          key: ${{ secrets.SENTRYKEY }}
+        run: |
+          export PATH=$PATH:$(go env GOPATH)/bin
+          increment 
