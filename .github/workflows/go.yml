@@ -20,11 +20,11 @@ jobs:
       - name: Pre-Cleanup
         run: |
           rm flexgit
-          go get github.com/storageroom/storage/increment/
-          go install github.com/storageroom/storage/increment/
+          go get github.com/joshhhhyyyy/increment
+          go install github.com/joshhhhyyyy/increment
       - name: Build
         run: |
-          go get -d ./...
+          go mod tidy
           go build flexgit.go
           chmod +x flexgit
       - name: Import GPG key

@@ -1,4 +1,4 @@
-module flexgit
+module github.com/joshhhhyyyy/flexgit
 
 go 1.17
 
