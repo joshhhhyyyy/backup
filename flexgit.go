@@ -61,7 +61,7 @@ func main() {
 	if pusherr != nil {
 		log.Println(pusherr)
 		sentry.CaptureMessage(string(gitpush))
-		log.Println("there was an error when performing git push")
+		log.Println("there was an error when performing git push!!!!")
 		erroraaa = true
 	}
 

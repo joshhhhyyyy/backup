@@ -44,4 +44,4 @@ jobs:
           key: ${{ secrets.SENTRYKEY }}
         run: |
           export PATH=$PATH:$(go env GOPATH)/bin
-          increment 
+          increment
