@@ -15,6 +15,8 @@ func main() {
 	key := flag.String("key", "https://nil", "the api key for this sentry project")
 	flag.Parse()
 
+	log.Println("using sentry key:", *key)
+
 	uuuuuuuuu := sentry.Init(sentry.ClientOptions{
 		Dsn: *key,
 	})
@@ -23,31 +25,48 @@ func main() {
 	}
 
 	lmao := time.Now().Format("🌈 02 Jan")
+	log.Println(lmao)
 
-	gitadd := exec.Command("git", "add", ".").Run()
-	if gitadd != nil {
-		sentry.CaptureException(gitadd)
+	gitpull, pullerr := exec.Command("git", "pull").Output()
+	log.Println(string(gitpull))
+	if pullerr != nil {
+		log.Println(pullerr)
+		sentry.CaptureException(pullerr)
 		log.Println("there was an error when performing git add")
 		erroraaa = true
 	}
 
-	gitcommit := exec.Command("git", "commit", "-m", lmao).Run()
-	if gitcommit != nil {
-		sentry.CaptureException(gitcommit)
+	gitadd, adderr := exec.Command("git", "add", ".").Output()
+	log.Println(string(gitadd))
+	if adderr != nil {
+		log.Println(adderr)
+		sentry.CaptureException(adderr)
+		log.Println("there was an error when performing git add")
+		erroraaa = true
+	}
+
+	gitcommit, commiterr := exec.Command("git", "commit", "-m", lmao).Output()
+	log.Println(string(gitcommit))
+	if commiterr != nil {
+		log.Println(commiterr)
+		sentry.CaptureException(commiterr)
 		log.Println("there was an error when performing git commit")
 		erroraaa = true
 	}
 
-	gitpush := exec.Command("git", "push", "origin", "main").Run()
-	if gitpush != nil {
-		sentry.CaptureException(gitpush)
+	gitpush, pusherr := exec.Command("git", "push", "origin", "main").Output()
+	log.Println(string(gitpush))
+	if pusherr != nil {
+		log.Println(pusherr)
+		sentry.CaptureException(pusherr)
 		log.Println("there was an error when performing git push")
 		erroraaa = true
 	}
 
 	// check if boolean is true
-	if erroraaa {
+	if !erroraaa {
 	http.Get("https://betteruptime.com/api/v1/heartbeat/zfnS1uFSeYdSwQY41Na7mMRW")
-	log.Println("there was an error")
+	} else {
+		log.Println("there was an error")
 	}
 }
