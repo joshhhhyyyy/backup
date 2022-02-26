@@ -22,6 +22,7 @@ func main() {
 
 	uuuuuuuuu := sentry.Init(sentry.ClientOptions{
 		Dsn: *key,
+		TracesSampleRate: 1.0,
 	})
 	if uuuuuuuuu != nil {
 		log.Fatalf("sentry.Init: %s", uuuuuuuuu)
