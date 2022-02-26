@@ -13,9 +13,8 @@ import (
 
 func main() {
 	var erroraaa bool = false
-	//	key := os.Getenv("key")
 
-	key := flag.String("key", os.Getenv("key"), "the api key for this sentry project")
+	key := flag.String("key", os.Getenv("KEY"), "the api key for this sentry project")
 	flag.Parse()
 
 	log.Println("using sentry key:", *key)
