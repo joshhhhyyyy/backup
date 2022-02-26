@@ -15,6 +15,7 @@ func main() {
 	var erroraaa bool = false
 
 	key := flag.String("key", os.Getenv("KEY"), "the api key for this sentry project")
+	message := flag.String("message", time.Now().Format("🌈 02 Jan"), "the commit message")
 	flag.Parse()
 
 	log.Println("using sentry key:", *key)
@@ -26,14 +27,13 @@ func main() {
 		log.Fatalf("sentry.Init: %s", uuuuuuuuu)
 	}
 
-	lmao := time.Now().Format("🌈 02 Jan")
-	log.Println(lmao)
+	log.Println("commit message: ", *message)
 
 	gitpull, pullerr := exec.Command("git", "pull").Output()
 	log.Println(string(gitpull))
 	if pullerr != nil {
 		log.Println(pullerr)
-		sentry.CaptureException(pullerr)
+		sentry.CaptureMessage(string(gitpull))
 		log.Println("there was an error when performing git add")
 		erroraaa = true
 	}
@@ -42,16 +42,16 @@ func main() {
 	log.Println(string(gitadd))
 	if adderr != nil {
 		log.Println(adderr)
-		sentry.CaptureException(adderr)
+		sentry.CaptureMessage(string(gitadd))
 		log.Println("there was an error when performing git add")
 		erroraaa = true
 	}
 
-	gitcommit, commiterr := exec.Command("git", "commit", "-m", lmao).Output()
+	gitcommit, commiterr := exec.Command("git", "commit", "-m", *message).Output()
 	log.Println(string(gitcommit))
 	if commiterr != nil {
 		log.Println(commiterr)
-		sentry.CaptureException(commiterr)
+		sentry.CaptureMessage(string(gitcommit))
 		log.Println("there was an error when performing git commit")
 		erroraaa = true
 	}
@@ -60,7 +60,7 @@ func main() {
 	log.Println(string(gitpush))
 	if pusherr != nil {
 		log.Println(pusherr)
-		sentry.CaptureException(pusherr)
+		sentry.CaptureMessage(string(gitpush))
 		log.Println("there was an error when performing git push")
 		erroraaa = true
 	}
