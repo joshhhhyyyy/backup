@@ -4,6 +4,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"os"
 	"os/exec"
 	"time"
 
@@ -12,7 +13,9 @@ import (
 
 func main() {
 	var erroraaa bool = false
-	key := flag.String("key", "https://nil", "the api key for this sentry project")
+	//	key := os.Getenv("key")
+
+	key := flag.String("key", os.Getenv("key"), "the api key for this sentry project")
 	flag.Parse()
 
 	log.Println("using sentry key:", *key)
