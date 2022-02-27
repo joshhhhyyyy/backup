@@ -17,8 +17,8 @@
 ## Options
 **note: both single minus "-" and double minus "--" work fine
 
--key="" // Required, Type: string, [Sentry.io](sentry.io) dsn (key url) for project
+```-key=""``` // Required, Type: string, [Sentry.io](sentry.io) dsn (key url) for project
 
--bup="" // Optional, Type: string, betteruptime heartbeat url, eg. "https://betteruptime.com/api/v1/~~~"
+```-bup=""``` // Optional, Type: string, betteruptime heartbeat url, eg. "https://betteruptime.com/api/v1/~~~"
 
--message="" // Not needed at all, Type: string, optional commit message to pass for manual runs
+```-message=""``` // Not needed at all, Type: string, optional commit message to pass for manual runs
