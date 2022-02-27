@@ -15,7 +15,7 @@
 ### Systemd Timers
 [Sample Service file](https://github.com/storageroom/storage/blob/main/linux/systemd/flexgit.service)
 
-[Sample Timer file](https://github.com/storageroom/storage/blob/main/linux/systemd/flexgit.service)
+[Sample Timer file](https://github.com/storageroom/storage/blob/main/linux/systemd/flexgit.timer)
 
 Basically, systemd timers is a great alternative to cronjobs as it can be invoked and controlled via systemctl.
 
