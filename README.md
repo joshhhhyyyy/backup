@@ -12,6 +12,18 @@
 ```export PATH=$PATH:$(go env GOPATH)/bin``` (Add gopath to path)
 
 ## Usage
+### Systemd Timers
+[Sample Service file](https://github.com/storageroom/storage/blob/main/linux/systemd/flexgit.service)
+
+[Sample Timer file](https://github.com/storageroom/storage/blob/main/linux/systemd/flexgit.service)
+
+Basically, systemd timers is a great alternative to cronjobs as it can be invoked and controlled via systemctl.
+
+Every timer has a corresponding service file that it invokes when the time specified is hit. In the sample files provided, the timer triggers a backup at 4am and 59seconds daily.
+
+### Manual Usage
+This program can also be run manually with the command, where you can specify the commit message as well
+
 ```backup [OPTIONS]```
 
 ## Options
