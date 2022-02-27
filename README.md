@@ -12,7 +12,7 @@
 ```export PATH=$PATH:$(go env GOPATH)/bin``` (Add gopath to path)
 
 ## Usage
-```backup -FLAGS```
+```backup [OPTIONS]```
 
 ## Options
 **note: both single minus "-" and double minus "--" work fine
