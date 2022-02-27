@@ -6,12 +6,16 @@
 
 ## Usage
 ```go get github.com/joshhhhyyyy/backup```
+
 ```go install github.com/joshhhhyyyy/backup```
+
 ```export PATH=$PATH:$(go env GOPATH)/bin``` (Add gopath to path)
+
 ```backup -key=""```
 
 ## Optional flags
 **note: both single minus "-" and double minus "--" work fine
 
 -bup="" // Type: string, betteruptime heartbeat url, eg. "https://betteruptime.com/api/v1/~~~"
+
 -message="" // Type: string, optional commit message to pass for manual runs
