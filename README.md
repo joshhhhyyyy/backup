@@ -4,18 +4,21 @@
 ## What is this?
 **Simple program to automatically backup a database using git. Err handling by Sentry, Reporting by Betteruptime. Made with 🩸 , 😓 &amp; 😭**
 
-## Usage
+## Installation
 ```go get github.com/joshhhhyyyy/backup```
 
 ```go install github.com/joshhhhyyyy/backup```
 
 ```export PATH=$PATH:$(go env GOPATH)/bin``` (Add gopath to path)
 
-```backup -key=""```
+## Usage
+```backup -FLAGS```
 
-## Optional flags
+## Options
 **note: both single minus "-" and double minus "--" work fine
 
--bup="" // Type: string, betteruptime heartbeat url, eg. "https://betteruptime.com/api/v1/~~~"
+-key="" // Required, Type: string, [Sentry.io](sentry.io) dsn (key url) for project
 
--message="" // Type: string, optional commit message to pass for manual runs
+-bup="" // Optional, Type: string, betteruptime heartbeat url, eg. "https://betteruptime.com/api/v1/~~~"
+
+-message="" // Not needed at all, Type: string, optional commit message to pass for manual runs
