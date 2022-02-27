@@ -19,14 +19,14 @@ jobs:
           fetch-depth: 0
       - name: Pre-Cleanup
         run: |
-          rm flexgit
+          rm backup
           go get github.com/joshhhhyyyy/increment
           go install github.com/joshhhhyyyy/increment
       - name: Build
         run: |
           go mod tidy
-          go build flexgit.go
-          chmod +x flexgit
+          go build backup.go
+          chmod +x backup
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
         with:

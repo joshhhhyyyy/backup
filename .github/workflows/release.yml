@@ -31,4 +31,4 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           files: |
-            flexgit
+            backup

@@ -14,18 +14,20 @@ import (
 func main() {
 	var erroraaa bool = false
 
-	key := flag.String("key", os.Getenv("KEY"), "the api key for this sentry project")
-	message := flag.String("message", time.Now().Format("🌈 02 Jan"), "the commit message")
+	key := flag.String("key", os.Getenv("KEY"), "the api key for this sentry project (required)")
+	message := flag.String("message", time.Now().Format("🌈 02 Jan"), "the commit message (not required)")
+	bup := flag.String("bup", "joseos.com", "the betteruptime heartbeat to GET (optional)")
 	flag.Parse()
 
 	log.Println("using sentry key:", *key)
 
 	uuuuuuuuu := sentry.Init(sentry.ClientOptions{
-		Dsn: *key,
+		Dsn:              *key,
 		TracesSampleRate: 1.0,
 	})
 	if uuuuuuuuu != nil {
 		log.Fatalf("sentry.Init: %s", uuuuuuuuu)
+		panic(uuuuuuuuu)
 	}
 
 	log.Println("commit message: ", *message)
@@ -66,10 +68,10 @@ func main() {
 		erroraaa = true
 	}
 
-	// check if boolean is true
-	if !erroraaa {
-	http.Get("https://betteruptime.com/api/v1/heartbeat/zfnS1uFSeYdSwQY41Na7mMRW")
-	} else {
+	// check if an error has occured
+	if !erroraaa && *bup != "joseos.com" {
+		http.Get(*bup)
+	} else if erroraaa {
 		log.Println("there was an error")
 	}
 }
