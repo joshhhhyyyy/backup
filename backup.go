@@ -12,8 +12,6 @@ import (
 )
 
 func main() {
-	var erroraaa bool = false
-
 	key := flag.String("key", os.Getenv("KEY"), "the api key for this sentry project (required)")
 	message := flag.String("message", time.Now().Format("🌈 02 Jan"), "the commit message (not required)")
 	bup := flag.String("bup", "joseos.com", "the betteruptime heartbeat to GET (optional)")
@@ -35,45 +33,36 @@ func main() {
 	gitpull, pullerr := exec.Command("git", "pull").Output()
 	log.Println(string(gitpull))
 	if pullerr != nil {
-		log.Println(pullerr)
 		sentry.CaptureMessage(string(gitpull))
 		log.Println("there was an error when performing git add")
-		erroraaa = true
+		panic(pullerr)
 	}
 
 	gitadd, adderr := exec.Command("git", "add", ".").Output()
 	log.Println(string(gitadd))
 	if adderr != nil {
-		log.Println(adderr)
 		sentry.CaptureMessage(string(gitadd))
 		log.Println("there was an error when performing git add")
-		erroraaa = true
+		panic(adderr)
 	}
 
 	gitcommit, commiterr := exec.Command("git", "commit", "-m", *message).Output()
 	log.Println(string(gitcommit))
 	if commiterr != nil {
-		log.Println(commiterr)
 		sentry.CaptureMessage(string(gitcommit))
 		log.Println("there was an error when performing git commit")
-		erroraaa = true
+		panic(commiterr)
 	}
 
 	gitpush, pusherr := exec.Command("git", "push", "origin", "main").Output()
 	log.Println(string(gitpush))
 	if pusherr != nil {
-		log.Println(pusherr)
 		sentry.CaptureMessage(string(gitpush))
 		log.Println("there was an error when performing git push!!!!")
-		erroraaa = true
+		panic(pusherr)
 	}
 
-	// check if an error has occured
-	if !erroraaa && *bup != "joseos.com" {
+	if *bup != "joseos.com" {
 		http.Get(*bup)
-	} else if !erroraaa{
-		log.Println("there was no error")
-	} else if erroraaa {
-		log.Println("there was an error")
 	}
 }
