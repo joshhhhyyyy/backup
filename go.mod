@@ -1,4 +1,4 @@
-module github.com/joshhhhyyyy/flexgit
+module github.com/joshhhhyyyy/backup
 
 go 1.15
 
