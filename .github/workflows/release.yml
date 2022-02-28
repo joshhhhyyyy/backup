@@ -33,3 +33,34 @@ jobs:
           files: |
             Backup_1.0.9_amd64.deb
             backup
+  upload:
+    name: upload
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          repository: joseoscom/apt
+          token: ${{ secrets.PATN }}
+          ref: main
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPGN }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_tag_gpgsign: true
+          git_push_gpgsign: false
+      - name: set up
+        run: |
+          git config --global gpg.program gpg2
+      - name: get files
+        run: |
+          rm Backup_1.0.9_amd64.deb Packages.gz
+          wget https://raw.githubusercontent.com/joshhhhyyyy/backup/main/dist/Backup_1.0.9_amd64.deb
+          dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
+      - name: commit
+        run: |
+          git add .
+          git commit -m "👻"
+          git push origin main
