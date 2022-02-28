@@ -57,7 +57,7 @@ jobs:
       - name: get files
         run: |
           rm Backup_1.0.9_amd64.deb Packages.gz
-          wget https://raw.githubusercontent.com/joshhhhyyyy/backup/main/dist/Backup_1.0.9_amd64.deb
+          wget https://raw.githubusercontent.com/joshhhhyyyy/backup/main/Backup_1.0.9_amd64.deb
           dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
       - name: commit
         run: |
