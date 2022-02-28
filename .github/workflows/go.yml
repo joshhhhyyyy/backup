@@ -27,7 +27,7 @@ jobs:
           check-latest: true
       - name: get dependencies
         run : |
-          go get github.com/goreleaser/nfpm/v2/cmd/nfpm@latest
+          go get github.com/goreleaser/nfpm/v2/cmd/nfpm
           go install github.com/goreleaser/nfpm/v2/cmd/nfpm
           go get github.com/joshhhhyyyy/increment
           go install github.com/joshhhhyyyy/increment
@@ -50,5 +50,4 @@ jobs:
       - name: increment + commit
         env:
           key: ${{ secrets.SENTRYKEY }}
-        run: |
-          increment --nfpm
+        run: increment -nfpm
