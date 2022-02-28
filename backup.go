@@ -38,6 +38,16 @@ func main() {
 		panic(pullerr)
 	}
 
+	// check if the length of a variable is zero and returns true if it is zero.
+	gitstatus, gitstatuserr := exec.Command("git", "status", "--porcelain").Output()
+	if gitstatuserr != nil {
+		panic(gitstatuserr)
+	}
+	if len(string(gitstatus)) != 0 {
+		log.Printf("There are no changes to be committed.")
+		os.Exit(0)
+	}
+
 	gitadd, adderr := exec.Command("git", "add", ".").Output()
 	log.Println(string(gitadd))
 	if adderr != nil {
