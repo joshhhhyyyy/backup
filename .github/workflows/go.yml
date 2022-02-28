@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
       - name: Pre-Cleanup
         run: |
-          rm backup Backup_1.0.0_amd64.deb
+          rm backup *.deb
       - name: set up go
         uses: actions/setup-go@v2
         with:
@@ -27,13 +27,13 @@ jobs:
           check-latest: true
       - name: get dependencies
         run : |
-          go mod tidy
-          go get github.com/goreleaser/nfpm/v2/cmd/nfpm
+          go get github.com/goreleaser/nfpm/v2/cmd/nfpm@latest
           go install github.com/goreleaser/nfpm/v2/cmd/nfpm
           go get github.com/joshhhhyyyy/increment
           go install github.com/joshhhhyyyy/increment
       - name: Build
         run: |
+          go mod tidy
           go build backup.go
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
@@ -50,4 +50,5 @@ jobs:
       - name: increment + commit
         env:
           key: ${{ secrets.SENTRYKEY }}
-        run: increment -nfpm
+        run: |
+          increment --nfpm
