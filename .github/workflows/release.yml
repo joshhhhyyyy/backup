@@ -34,6 +34,7 @@ jobs:
             **.deb
             backup
   upload:
+    needs: release
     name: upload
     runs-on: ubuntu-latest
     steps:
