@@ -18,7 +18,9 @@ Made with 🩸 , 😓 &amp; 😭
 
 ### Via apt
 ```echo "deb [trusted=yes] https://apt.joseos.com/ ./" | sudo tee /etc/apt/sources.list.d/joseos.list```
+
 ```sudo apt update```
+
 ```sudo apt install backup```
 
 ## Usage
