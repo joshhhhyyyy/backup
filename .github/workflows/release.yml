@@ -31,7 +31,7 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           files: |
-            Backup_1.0.9_amd64.deb
+            Backup_1.0.0_amd64.deb
             backup
   upload:
     name: upload
@@ -56,8 +56,8 @@ jobs:
           git config --global gpg.program gpg2
       - name: get files
         run: |
-          rm Backup_1.0.9_amd64.deb Packages.gz
-          wget https://raw.githubusercontent.com/joshhhhyyyy/backup/main/Backup_1.0.9_amd64.deb
+          rm Backup_1.0.0_amd64.deb Packages.gz
+          wget https://raw.githubusercontent.com/joshhhhyyyy/backup/main/Backup_1.0.0_amd64.deb
           dpkg-scanpackages . /dev/null | gzip -9c > Packages.gz
       - name: commit
         run: |

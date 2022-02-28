@@ -1,19 +1,13 @@
-# nfpm example config file
-#
-# check https://nfpm.goreleaser.com/configuration for detailed usage
-#
 name: "Backup"
 arch: "amd64"
 platform: "linux"
-version: "v1.0.9"
+version: "v1.0.0"
 section: "utils"
 maintainer: "joshy <joshua@joseos.com>"
 description: "A tool to backup a database via git"
 homepage: "https://github.com/joshhhhyyyy/backup"
-
 depends:
 - git
-
 contents:
 - src: backup
   dst: /usr/bin/backup
