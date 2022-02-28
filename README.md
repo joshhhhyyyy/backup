@@ -9,11 +9,17 @@ Err handling by **[Sentry](sentry.io)**, Uses heartbeats by **[Betteruptime](htt
 Made with 🩸 , 😓 &amp; 😭
 
 ## Installation
+### Via Go
 ```go get github.com/joshhhhyyyy/backup```
 
 ```go install github.com/joshhhhyyyy/backup```
 
 ```export PATH=$PATH:$(go env GOPATH)/bin``` (Add gopath to path)
+
+### Via apt
+```echo "deb [trusted=yes] https://apt.joseos.com/ ./" | sudo tee /etc/apt/sources.list.d/joseos.list```
+```sudo apt update```
+```sudo apt install backup```
 
 ## Usage
 ### Systemd Timers
