@@ -20,6 +20,13 @@ jobs:
       - name: Pre-Cleanup
         run: |
           rm backup Backup_1.0.9_amd64.deb
+      - name: set up go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.17.7'
+          check-latest: true
+      - name: get dependencies
+        run : |
           go install github.com/goreleaser/nfpm/v2/cmd/nfpm
           go install github.com/joshhhhyyyy/increment
       - name: Build
@@ -45,5 +52,4 @@ jobs:
         env:
           key: ${{ secrets.SENTRYKEY }}
         run: |
-          export PATH=$PATH:$(go env GOPATH)/bin
           increment
