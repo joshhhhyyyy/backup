@@ -35,9 +35,7 @@ jobs:
         run: |
           go mod tidy
           go build backup.go
-          chmod +x backup
-          export PATH=$PATH:$(go env GOPATH)/bin
-          nfpm package -p
+          nfpm package -p deb
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
         with:
