@@ -13,7 +13,7 @@ import (
 
 func main() {
 	key := flag.String("key", os.Getenv("KEY"), "the api key for this sentry project (required)")
-	message := flag.String("message", time.Now().Format("🌈 02 Jan"), "the commit message (not required)")
+	message := flag.String("m", time.Now().Format("🌈 02 Jan"), "the commit message (not required)")
 	bup := flag.String("bup", "joseos.com", "the betteruptime heartbeat to GET (optional)")
 	flag.Parse()
 

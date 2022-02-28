@@ -27,15 +27,14 @@ jobs:
           check-latest: true
       - name: get dependencies
         run : |
+          go mod tidy
           go get github.com/goreleaser/nfpm/v2/cmd/nfpm
           go install github.com/goreleaser/nfpm/v2/cmd/nfpm
           go get github.com/joshhhhyyyy/increment
           go install github.com/joshhhhyyyy/increment
       - name: Build
         run: |
-          go mod tidy
           go build backup.go
-          nfpm package -p deb
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
         with:
@@ -51,4 +50,4 @@ jobs:
       - name: increment + commit
         env:
           key: ${{ secrets.SENTRYKEY }}
-        run: increment
+        run: increment -nfpm
