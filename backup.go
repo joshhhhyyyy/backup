@@ -43,7 +43,7 @@ func main() {
 	if gitstatuserr != nil {
 		panic(gitstatuserr)
 	}
-	if len(string(gitstatus)) != 0 {
+	if len(string(gitstatus)) == 0 {
 		log.Printf("There are no changes to be committed.")
 		os.Exit(0)
 	}
