@@ -20,8 +20,8 @@ jobs:
       - name: Pre-Cleanup
         run: |
           rm backup Backup_1.0.9_amd64.deb
-          go install github.com/goreleaser/nfpm/v2/cmd/nfpm@latest
-          go install github.com/joshhhhyyyy/increment@latest
+          go install github.com/goreleaser/nfpm/v2/cmd/nfpm
+          go install github.com/joshhhhyyyy/increment
       - name: Build
         run: |
           go mod tidy
