@@ -71,6 +71,8 @@ func main() {
 	// check if an error has occured
 	if !erroraaa && *bup != "joseos.com" {
 		http.Get(*bup)
+	} else if !erroraaa{
+		log.Println("there was no error")
 	} else if erroraaa {
 		log.Println("there was an error")
 	}
