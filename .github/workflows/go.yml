@@ -19,13 +19,14 @@ jobs:
           fetch-depth: 0
       - name: Pre-Cleanup
         run: |
-          rm backup
+          rm backup Backup_1.0.9_amd64.deb
           go install github.com/joshhhhyyyy/increment@latest
       - name: Build
         run: |
           go mod tidy
           go build backup.go
           chmod +x backup
+          nfpm package -p
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
         with:

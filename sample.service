@@ -1,0 +1,10 @@
+[Unit]
+Description=Flood Git Upload
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root/.local/share/flood
+Type=simple
+ExecStart=/bin/flexgit -key="" -bup=""

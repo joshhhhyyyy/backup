@@ -31,4 +31,5 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           files: |
+            Backup_1.0.9_amd64.deb
             backup

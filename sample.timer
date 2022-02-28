@@ -1,0 +1,9 @@
+[Unit]
+Description=Run floodgit daily
+
+[Timer]
+OnCalendar=*-*-* 04:00:59
+Persistent=true
+
+[Install]
+WantedBy=timers.target
