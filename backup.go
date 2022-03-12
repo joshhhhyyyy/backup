@@ -20,7 +20,7 @@ func main() {
 	log.Println("using sentry key:", *key)
 
 	uuuuuuuuu := sentry.Init(sentry.ClientOptions{
-		Dsn: *key,
+		Dsn:              *key,
 		TracesSampleRate: 1.0,
 	})
 	if uuuuuuuuu != nil {
@@ -45,6 +45,7 @@ func main() {
 	}
 	if len(string(gitstatus)) == 0 {
 		log.Printf("There are no changes to be committed.")
+		http.Get(*bup)
 		os.Exit(0)
 	}
 
