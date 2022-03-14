@@ -15,7 +15,7 @@ func main() {
 	// Initiallise flags
 	key := flag.String("key", "https://ce35494a70c94719bc09c3e1086517ad@o1153157.ingest.sentry.io/6233195", "the api key for this sentry project (optional)")
 	message := flag.String("m", time.Now().Format("🌈 02 Jan"), "manual override for the commit message (not required)")
-	bup := flag.String("bup", "joseos.com", "a cronjob tracker http link  (eg. betteruptime heartbeat) to http.GET (optional)")
+	bup := flag.String("bup", "nil", "a cronjob tracker http link  (eg. betteruptime heartbeat) to http.GET (optional)")
 	flag.Parse()
 
 	// Print stuff
@@ -23,7 +23,7 @@ func main() {
 		log.Println("using custom sentry key:", *key)
 	}
 
-	if *bup != "joseos.com" {
+	if *bup != "nil" {
 		log.Println("with betteruptime key:", *bup)
 	}
 
@@ -51,12 +51,14 @@ func main() {
 
 	// check if the length of git status is zero and returns true if it is zero.
 	gitstatus, gitstatuserr := exec.Command("git", "status", "--porcelain").Output()
+	log.Println(gitstatus)
 	if gitstatuserr != nil {
 		panic(gitstatuserr)
 	}
+
 	if len(string(gitstatus)) == 0 {
 		log.Printf("There are no changes to be committed.")
-		if *bup != "joseos.com" {
+		if *bup != "nil" {
 			httpget, httperr := http.Get(*bup)
 			if httperr != nil {
 				log.Println("there was an error when perfoming http.get after git status.")
@@ -68,28 +70,8 @@ func main() {
 		os.Exit(0)
 	}
 
-	gitadd, adderr := exec.Command("git", "add", ".").Output()
-	log.Println(string(gitadd))
-	if adderr != nil {
-		sentry.CaptureMessage(string(gitadd))
-		log.Println("there was an error when performing git add")
-
-		// try again
-		log.Println("trying again,")
-		onerrgitadd := exec.Command("git", "commit", "-m", *message)
-		onerrgitadd.Stdin = os.Stdin
-		onerrgitadd.Stdout = os.Stdout
-		onerrgitadd.Stderr = os.Stderr
-		onerrgitadderr := onerrgitadd.Run()
-
-		if onerrgitadderr != nil {
-			sentry.CaptureException(onerrgitadderr)
-			log.Println(onerrgitadderr)
-			panic(onerrgitadderr)
-		}
-	}
-
-	gitcommit, commiterr := exec.Command("git", "commit", "-m", *message).Output()
+	// Stage and commit all files
+	gitcommit, commiterr := exec.Command("git", "commit", "-am", *message).Output()
 	log.Println(string(gitcommit))
 	if commiterr != nil {
 		sentry.CaptureMessage(string(gitcommit))
@@ -97,7 +79,7 @@ func main() {
 
 		// try again
 		log.Println("trying again,")
-		onerrgitcommit := exec.Command("git", "commit", "-m", *message)
+		onerrgitcommit := exec.Command("git", "commit", "-am", *message)
 		onerrgitcommit.Stdin = os.Stdin
 		onerrgitcommit.Stdout = os.Stdout
 		onerrgitcommit.Stderr = os.Stderr
@@ -110,6 +92,7 @@ func main() {
 		}
 	}
 
+	// Push all files
 	gitpush, pusherr := exec.Command("git", "push").Output()
 	log.Println(string(gitpush))
 	if pusherr != nil {
@@ -130,8 +113,8 @@ func main() {
 			panic(onerrgitpusherr)
 		}
 	}
-
-	if *bup != "joseos.com" {
+	// http.get provided link if it isnt nil
+	if *bup != "nil" {
 		httpget, httperr := http.Get(*bup)
 		if httperr != nil {
 			log.Println("there was an error when perfoming http.get at the end.")
