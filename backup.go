@@ -76,20 +76,6 @@ func main() {
 	if commiterr != nil {
 		sentry.CaptureMessage(string(gitcommit))
 		log.Println("there was an error when performing git commit")
-
-		// try again
-		log.Println("trying again,")
-		onerrgitcommit := exec.Command("git", "commit", "-am", *message)
-		onerrgitcommit.Stdin = os.Stdin
-		onerrgitcommit.Stdout = os.Stdout
-		onerrgitcommit.Stderr = os.Stderr
-		onerrgitcommiterr := onerrgitcommit.Run()
-
-		if onerrgitcommiterr != nil {
-			sentry.CaptureException(onerrgitcommiterr)
-			log.Println(onerrgitcommiterr)
-			panic(onerrgitcommiterr)
-		}
 	}
 
 	// Push all files
@@ -98,20 +84,6 @@ func main() {
 	if pusherr != nil {
 		sentry.CaptureMessage(string(gitpush))
 		log.Println("there was an error when performing git push")
-
-		// try again
-		log.Println("trying again,")
-		onerrgitpush := exec.Command("git", "push")
-		onerrgitpush.Stdin = os.Stdin
-		onerrgitpush.Stdout = os.Stdout
-		onerrgitpush.Stderr = os.Stderr
-		onerrgitpusherr := onerrgitpush.Run()
-
-		if onerrgitpusherr != nil {
-			sentry.CaptureException(onerrgitpusherr)
-			log.Println(onerrgitpusherr)
-			panic(onerrgitpusherr)
-		}
 	}
 	// http.get provided link if it isnt nil
 	if *bup != "nil" {
