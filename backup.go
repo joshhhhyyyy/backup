@@ -12,30 +12,41 @@ import (
 )
 
 func main() {
-	key := flag.String("key", os.Getenv("KEY"), "the api key for this sentry project (required)")
-	message := flag.String("m", time.Now().Format("🌈 02 Jan"), "the commit message (not required)")
-	bup := flag.String("bup", "joseos.com", "the betteruptime heartbeat to GET (optional)")
+	// Initiallise flags
+	key := flag.String("key", "https://ce35494a70c94719bc09c3e1086517ad@o1153157.ingest.sentry.io/6233195", "the api key for this sentry project (optional)")
+	message := flag.String("m", time.Now().Format("🌈 02 Jan"), "manual override for the commit message (not required)")
+	bup := flag.String("bup", "joseos.com", "a cronjob tracker http link  (eg. betteruptime heartbeat) to http.GET (optional)")
 	flag.Parse()
 
-	log.Println("using sentry key:", *key)
+	// Print stuff
+	if *key != "https://ce35494a70c94719bc09c3e1086517ad@o1153157.ingest.sentry.io/6233195" {
+		log.Println("using custom sentry key:", *key)
+	}
 
-	uuuuuuuuu := sentry.Init(sentry.ClientOptions{
+	if *bup != "joseos.com" {
+		log.Println("with betteruptime key:", *bup)
+	}
+
+	if *message != time.Now().Format("🌈 02 Jan") {
+		log.Println("custom commit message: ", *message)
+	}
+
+	// Initiallise Sentry
+	sentryerr := sentry.Init(sentry.ClientOptions{
 		Dsn:              *key,
 		TracesSampleRate: 1.0,
 	})
-	if uuuuuuuuu != nil {
-		log.Fatalf("sentry.Init: %s", uuuuuuuuu)
-		panic(uuuuuuuuu)
+	if sentryerr != nil {
+		log.Fatalf("sentry.Init: %s", sentryerr)
+		panic(sentryerr)
 	}
-
-	log.Println("commit message: ", *message)
 
 	gitpull, pullerr := exec.Command("git", "pull").Output()
 	log.Println(string(gitpull))
 	if pullerr != nil {
 		sentry.CaptureMessage(string(gitpull))
-		log.Println("there was an error when performing git add")
-		panic(pullerr)
+		log.Println("there was an error when performing git pull")
+		log.Println("Continuing,")
 	}
 
 	// check if the length of git status is zero and returns true if it is zero.
@@ -45,7 +56,15 @@ func main() {
 	}
 	if len(string(gitstatus)) == 0 {
 		log.Printf("There are no changes to be committed.")
-		http.Get(*bup)
+		if *bup != "joseos.com" {
+			httpget, httperr := http.Get(*bup)
+			if httperr != nil {
+				log.Println("there was an error when perfoming http.get after git status.")
+				sentry.CaptureException(httperr)
+				log.Println(httpget)
+				panic(httperr)
+			}
+		}
 		os.Exit(0)
 	}
 
@@ -54,7 +73,20 @@ func main() {
 	if adderr != nil {
 		sentry.CaptureMessage(string(gitadd))
 		log.Println("there was an error when performing git add")
-		panic(adderr)
+
+		// try again
+		log.Println("trying again,")
+		onerrgitadd := exec.Command("git", "commit", "-m", *message)
+		onerrgitadd.Stdin = os.Stdin
+		onerrgitadd.Stdout = os.Stdout
+		onerrgitadd.Stderr = os.Stderr
+		onerrgitadderr := onerrgitadd.Run()
+
+		if onerrgitadderr != nil {
+			sentry.CaptureException(onerrgitadderr)
+			log.Println(onerrgitadderr)
+			panic(onerrgitadderr)
+		}
 	}
 
 	gitcommit, commiterr := exec.Command("git", "commit", "-m", *message).Output()
@@ -62,18 +94,50 @@ func main() {
 	if commiterr != nil {
 		sentry.CaptureMessage(string(gitcommit))
 		log.Println("there was an error when performing git commit")
-		panic(commiterr)
+
+		// try again
+		log.Println("trying again,")
+		onerrgitcommit := exec.Command("git", "commit", "-m", *message)
+		onerrgitcommit.Stdin = os.Stdin
+		onerrgitcommit.Stdout = os.Stdout
+		onerrgitcommit.Stderr = os.Stderr
+		onerrgitcommiterr := onerrgitcommit.Run()
+
+		if onerrgitcommiterr != nil {
+			sentry.CaptureException(onerrgitcommiterr)
+			log.Println(onerrgitcommiterr)
+			panic(onerrgitcommiterr)
+		}
 	}
 
-	gitpush, pusherr := exec.Command("git", "push", "origin", "main").Output()
+	gitpush, pusherr := exec.Command("git", "push").Output()
 	log.Println(string(gitpush))
 	if pusherr != nil {
 		sentry.CaptureMessage(string(gitpush))
-		log.Println("there was an error when performing git push!!!!")
-		panic(pusherr)
+		log.Println("there was an error when performing git push")
+
+		// try again
+		log.Println("trying again,")
+		onerrgitpush := exec.Command("git", "push")
+		onerrgitpush.Stdin = os.Stdin
+		onerrgitpush.Stdout = os.Stdout
+		onerrgitpush.Stderr = os.Stderr
+		onerrgitpusherr := onerrgitpush.Run()
+
+		if onerrgitpusherr != nil {
+			sentry.CaptureException(onerrgitpusherr)
+			log.Println(onerrgitpusherr)
+			panic(onerrgitpusherr)
+		}
 	}
 
 	if *bup != "joseos.com" {
-		http.Get(*bup)
+		httpget, httperr := http.Get(*bup)
+		if httperr != nil {
+			log.Println("there was an error when perfoming http.get at the end.")
+			sentry.CaptureException(httperr)
+			log.Println(httpget)
+			panic(httperr)
+		}
 	}
 }

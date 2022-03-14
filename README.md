@@ -32,15 +32,17 @@ Basically, systemd timers is a great alternative to cronjobs as it can be invoke
 Every timer has a corresponding service file that it invokes when the time specified is hit. In the sample files provided, the timer triggers a backup at 4am and 59seconds daily.
 
 ### Manual Usage
-This program can also be run manually with the command, where you can specify the commit message as well
+This program can also be set with flags, where you can specify the commit message and cronjob tracker of your choice.
 
 ```backup [OPTIONS]```
 
 ## Options
 **note: both single minus "-" and double minus "--" work fine
 
-```-key=""``` // Required, Type: string, [Sentry.io](sentry.io) dsn (key url) for project
-
-```-bup=""``` // Optional, Type: string, betteruptime heartbeat url, eg. "https://betteruptime.com/api/v1/~~~"
+```-bup=""``` // Optional, Type: string, a cronjob tracker http link  (eg. betteruptime heartbeat) to http.GET
 
 ```-message=""``` // Not needed at all, Type: string, optional commit message to pass for manual runs
+
+## Debug Options
+
+```-key=""``` // Optional, Type: string, Custom [Sentry.io](sentry.io) dsn (key url) for project
