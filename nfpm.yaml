@@ -11,7 +11,3 @@ depends:
 contents:
 - src: backup
   dst: /usr/bin/backup
-- src: sample.service
-  dst: /etc/sample.service
-- src: sample.timer
-  dst: /etc/sample.timer
