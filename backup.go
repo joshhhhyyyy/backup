@@ -76,6 +76,7 @@ func main() {
 	if commiterr != nil {
 		sentry.CaptureMessage(string(gitcommit))
 		log.Println("there was an error when performing git commit")
+		panic(gitcommit)
 	}
 
 	// Push all files
@@ -84,7 +85,9 @@ func main() {
 	if pusherr != nil {
 		sentry.CaptureMessage(string(gitpush))
 		log.Println("there was an error when performing git push")
+		panic(pusherr)
 	}
+
 	// http.get provided link if it isnt nil
 	if *bup != "nil" {
 		httpget, httperr := http.Get(*bup)
