@@ -56,7 +56,7 @@ func main() {
 		panic(gitstatuserr)
 	}
 
-	if len(string(gitstatus)) == 0 {
+	if string(gitstatus) == "" {
 		log.Printf("There are no changes to be committed.")
 		if *bup != "nil" {
 			httpget, httperr := http.Get(*bup)
