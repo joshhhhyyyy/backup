@@ -1,5 +1,5 @@
 name: "Backup"
-arch: "amd64"
+arch: ${NFPMARCHITECTURE}
 platform: "linux"
 version: ${VERSION}
 section: "utils"
