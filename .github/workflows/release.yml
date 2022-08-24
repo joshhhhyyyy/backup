@@ -57,7 +57,7 @@ jobs:
           git config --global gpg.program gpg2
       - name: get files
         run: |
-          rm packages/* Packages.gz
+          rm Backup*.deb Packages.gz
           curl -s https://api.github.com/repos/joshhhhyyyy/backup/releases/latest | grep "browser_download_url.*deb" | cut -d : -f 2,3 | tr -d \" | wget -qi -
           dpkg-scanpackages packages /dev/null | gzip -9c > Packages.gz
       - name: commit
