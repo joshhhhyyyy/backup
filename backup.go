@@ -88,7 +88,7 @@ func main() {
 		panic(pusherr)
 	}
 
-	// http.get provided link if it isnt nil
+	// ping provided link if it isnt nil
 	if *ping != "nil" {
 		httpget, httperr := http.Get(*ping)
 		if httperr != nil {
