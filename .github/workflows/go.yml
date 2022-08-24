@@ -37,7 +37,12 @@ jobs:
           gofmt -s backup.go
           env GOOS=linux GOARCH=amd64 go build -o binaries/backup_amd64 backup.go
           env GOOS=linux GOARCH=arm64 go build -o binaries/backup_arm64 backup.go
-          chmod +x binaries/backup_arm64 binaries/backup_amd64
+          env GOOS=linux GOARCH=arm go build -o binaries/backup_armhf backup.go
+          env GOOS=darwin GOARCH=amd64 go build -o binaries/backup_osx-amd64 backup.go
+          env GOOS=darwin GOARCH=arm64 go build -o binaries/backup_osx-arm64 backup.go
+          env GOOS=windows GOARCH=amd64 go build -o binaries/backup_windows-amd64 backup.go
+          env GOOS=windows GOARCH=arm64 go build -o binaries/backup_windows-arm64 backup.go
+          env GOOS=windows GOARCH=arm go build -o binaries/backup_windows-armhf backup.go
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
