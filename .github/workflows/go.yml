@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
       - name: Pre-Cleanup
         run: |
-          rm backup *.deb
+          rm binaries/* packages/*
       - name: set up go
         uses: actions/setup-go@v2
         with:
@@ -35,9 +35,9 @@ jobs:
         run: |
           go mod tidy
           gofmt -s backup.go
-          env GOOS=linux GOARCH=amd64 go build -o backup_amd64 backup.go
-          env GOOS=linux GOARCH=arm64 go build -o backup_arm64 backup.go
-          chmod +x backup_arm64 backup_amd64
+          env GOOS=linux GOARCH=amd64 go build -o binaries/backup_amd64 backup.go
+          env GOOS=linux GOARCH=arm64 go build -o binaries/backup_arm64 backup.go
+          chmod +x binaries/backup_arm64 binaries/backup_amd64
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4

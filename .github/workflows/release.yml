@@ -31,9 +31,8 @@ jobs:
         with:
           token: ${{ secrets.PAT }}
           files: |
-            **.deb
-            backup_amd64
-            backup_arm64
+            binaries/*
+            packages/*
   upload:
     needs: release
     name: upload

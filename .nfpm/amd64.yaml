@@ -9,5 +9,5 @@ homepage: "https://github.com/joshhhhyyyy/backup"
 depends:
 - git
 contents:
-- src: "backup_amd64"
+- src: "binaries/backup_amd64"
   dst: /usr/bin/backup
