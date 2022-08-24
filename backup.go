@@ -24,7 +24,7 @@ func main() {
 	}
 
 	if *ping != "nil" {
-		log.Println("Will ping:", *ping)
+		log.Println("ping url:", *ping)
 	}
 
 	if *message != time.Now().Format("🌈 02 Jan") {
