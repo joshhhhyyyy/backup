@@ -9,5 +9,5 @@ homepage: "https://github.com/joshhhhyyyy/backup"
 depends:
 - git
 contents:
-- src: backup
+- src: ${BINARYARCHITECTURE}
   dst: /usr/bin/backup
