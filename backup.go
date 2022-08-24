@@ -92,7 +92,7 @@ func main() {
 	if *ping != "nil" {
 		httpget, httperr := http.Get(*ping)
 		if httperr != nil {
-			log.Println("there was an error when perfoming http.get at the end.")
+			log.Println("there was an error when pinging the supplied url")
 			sentry.CaptureException(httperr)
 			log.Println(httpget)
 			panic(httperr)
