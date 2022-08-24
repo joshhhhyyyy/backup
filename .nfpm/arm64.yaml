@@ -1,0 +1,13 @@
+name: "Backup"
+arch: "arm64"
+platform: "linux"
+version: ${VERSION}
+section: "utils"
+maintainer: "joshy <joshua@joseos.com>"
+description: "A tool to backup a database via git"
+homepage: "https://github.com/joshhhhyyyy/backup"
+depends:
+- git
+contents:
+- src: "backup_arm64"
+  dst: /usr/bin/backup

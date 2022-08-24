@@ -1,5 +1,5 @@
 name: "Backup"
-arch: ${NFPMARCHITECTURE}
+arch: "amd64"
 platform: "linux"
 version: ${VERSION}
 section: "utils"
@@ -9,5 +9,5 @@ homepage: "https://github.com/joshhhhyyyy/backup"
 depends:
 - git
 contents:
-- src: ${BINARYARCHITECTURE}
+- src: "backup_amd64"
   dst: /usr/bin/backup
