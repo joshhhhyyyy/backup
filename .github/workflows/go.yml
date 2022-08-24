@@ -35,7 +35,10 @@ jobs:
         run: |
           go mod tidy
           gofmt -s backup.go
-          go build backup.go
+          env GOOS=linux GOARCH=amd64
+          go build backup.go -o backup_amd64
+          env GOOS=linux GOARCH=arm64
+          go build backup.go -o backup_arm64
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v4
         with:
