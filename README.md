@@ -39,7 +39,7 @@ This program can also be set with flags, where you can specify the commit messag
 ## Options
 **note: both single minus "-" and double minus "--" work fine
 
-```-bup=""``` // Optional, Type: string, a cronjob tracker http link  (eg. betteruptime heartbeat) to http.GET
+```-ping=""``` // Optional, Type: string, send a http get request everytime this runs for uptime monitoring 
 
 ```-message=""``` // Not needed at all, Type: string, optional commit message to pass for manual runs
 
