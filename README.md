@@ -25,7 +25,7 @@ Made with 🩸 , 😓 &amp; 😭
 
 ## Usage
 ### Systemd Timers
-[Sample Service file](https://github.com/storageroom/storage/blob/main/linux/systemd/floodgit.service) | [Sample Timer file](https://github.com/storageroom/storage/blob/main/linux/systemd/flexgit.timer)
+[Sample Service file](https://github.com/storageroom/storage/blob/main/linux/systemd/floodgit.service) | [Sample Timer file](https://github.com/storageroom/storage/blob/main/linux/systemd/floodgit.timer)
 
 Basically, systemd timers is a great alternative to cronjobs as it can be invoked and controlled via systemctl.
 
